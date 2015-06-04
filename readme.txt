@@ -57,3 +57,6 @@ git push origin master      -- 把本地的 commit push 到远程仓库中
     1. 在本地仓库根目录创建 .gitignore 文件。Win7 下不能直接创建，可以创建 ".gitignore." 文件，后面的标点自动被忽略；
     2. 过滤文件和文件夹： [Tt]emp/ 过滤 Temp\temp 文件夹； *.suo 过滤 .suo 文件；
     3. 不过滤文件和文件夹： !*.c
+
+	-----------------------------------------------------------------
+	keep study always
