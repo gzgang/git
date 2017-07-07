@@ -26,24 +26,39 @@ function build_one
   --extra-cflags="-O0 -g3 -fpic -DANDROID -D__ANDROID__ -DHAVE_SYS_UIO_H=1 -Dipv6mr_interface=ipv6mr_ifindex -fasm -Wno-psabi -fno-short-enums  -fno-strict-aliasing -finline-limit=300 $OPTIMIZE_CFLAGS -I$INC" \
   --disable-shared \
   --enable-static \
-  --extra-ldflags="-L$SYSROOT/usr/lib -nostdlib -lc -lm -lz -ldl -llog" \
+  --extra-ldflags="-L$SYSROOT/usr/lib -nostdlib -lc -lm -lz -ldl -llog -L$LIB" \
   --enable-swscale \
   --disable-ffplay \
   --disable-ffmpeg \
   --disable-ffprobe \
   --disable-ffserver \
-  --enable-network \
   --enable-indevs \
-  --disable-avdevice --disable-avfilter --disable-doc --enable-optimizations \
-  --enable-asm \
-  --enable-inline-asm \
-  --enable-debug --disable-devices --enable-pic --disable-filters \
+  --enable-libx264 \
+  --disable-avdevice \
+  --disable-postproc \
+  --disable-doc \
+  --enable-optimizations \
+  --enable-avresample \
+  --enable-swscale \
+  --enable-hwaccels \
+  --enable-swresample \
+  --enable-small \
+  --enable-avfilter \
+  --enable-gpl \
+  --enable-yasm \
+  --enable-network \
+  --disable-asm \
+  --disable-inline-asm \
+  --enable-debug \
+  --disable-devices \
+  --enable-pic \
+  --enable-filters \
   --disable-protocols --enable-protocol=file,http,mem \
   --disable-bsfs --enable-bsf=h264_mp4toannexb,h264_changesps \
-  --disable-muxers --enable-muxer=mpegts,flv,gif,image2,mjpeg \
-  --disable-demuxers --enable-demuxer=hls,mpegts,h264,mov,m4v \
-  --disable-encoders --enable-encoder=mjpeg,jpeg2000,gif \
-  --disable-decoders --enable-decoder=h264,aac,aac_latm,ac3,mpeg4 \
+  --disable-muxers --enable-muxer=mpegts,flv,gif,image2,mjpeg,aac,avi,mov,mp3,mp4,adts,h264,mpegts,matroska,matroska_audio \
+  --disable-demuxers --enable-demuxer=hls,mpegts,h264,mov,m4v,mpegts,aac,ac3,gif,concat,image2,avi,mp3,matroska,mgsts,mpegvideo \
+  --disable-encoders --enable-encoder=mjpeg,jpeg2000,gif,libx264,aac,ac3,png,mpeg4,libxavs,libfdk_aac \
+  --disable-decoders --enable-decoder=h264,aac,aac_latm,ac3,mpeg4,gif,mp3,flac,mjpeg,png,h264_mediacodec,mpeg4_mediacodec \
   --enable-parsers --disable-parser=pnm,adx,cavsvideo,mlp,dnxhd,h261,dirac,hevc \
   $ADDITIONAL_CONFIGURE_FLAG
 
@@ -54,9 +69,19 @@ make install
 arm-linux-androideabi-ar d libavcodec/libavcodec.a inverse.o
 
 arm-linux-androideabi-ld -rpath-link=$SYSROOT/usr/lib -L$SYSROOT/usr/lib -soname $OUTPUT_SO_NAME -shared -nostdlib -z noexecstack -Bsymbolic --whole-archive --no-undefined -o $PREFIX/$OUTPUT_SO_NAME \
- $LIB/libx264.a libavcodec/libavcodec.a libavformat/libavformat.a libavutil/libavutil.a libswresample/libswresample.a libswscale/libswscale.a -lc -lm -lz -ldl -llog --dynamic-linker=/system/bin/linker $TOOLCHAIN/lib/gcc/arm-linux-androideabi/4.9.x/libgcc.a
+$LIB/libx264.a \
+libavcodec/libavcodec.a \
+libpostproc/libpostproc.a \
+libavresample/libavresample.a \
+libavfilter/libavfilter.a \
+libswresample/libswresample.a \
+libavformat/libavformat.a \
+libavutil/libavutil.a \
+libswscale/libswscale.a \
+-lc -lm -lz -ldl -llog --dynamic-linker=/system/bin/linker \
+$TOOLCHAIN/lib/gcc/arm-linux-androideabi/4.9.x/libgcc.a
 
-arm-linux-androideabi-strip --strip-unneeded $PREFIX/libffmpeg_acos.so
+arm-linux-androideabi-strip --strip-unneeded $PREFIX/$OUTPUT_SO_NAME
 
 #cp $PREFIX/libffmpeg_acos.so ../../lib/Android/ffmpeg/armeabi
 #cp -a $PREFIX/include/* ../../include/ffmpeg/
