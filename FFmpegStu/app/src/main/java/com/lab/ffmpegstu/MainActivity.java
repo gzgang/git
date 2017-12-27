@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     };
 
     static String sdcardPath = Environment.getExternalStorageDirectory().getPath() + "/abcd";
+    static String sdcardPath_output = Environment.getExternalStorageDirectory().getPath() + "/abcd/output";
     private static final String TAG = "FFmpegMediaOperatorImpl";
 
 
@@ -259,7 +260,7 @@ public class MainActivity extends AppCompatActivity
 
     private void concatVideo() {
 
-        String outputMp4 = sdcardPath + "/output_concat_video.mp4";
+        String outputMp4 = sdcardPath_output + "/output_concat_video.mp4";
 
         File file = new File(sdcardPath + "/tmpRecording/");
         File[] files = file.listFiles();
@@ -274,7 +275,7 @@ public class MainActivity extends AppCompatActivity
 
     private void addFilter() {
         String inputMp4 = sdcardPath + "/videoplayback_output.mp4";
-        String outputMp4 = sdcardPath + "/output_add_filter.mp4";
+        String outputMp4 = sdcardPath_output + "/output_add_filter.mp4";
         String filterConfig = Config.effectConfigs[1];
 
         MediaOperator.getInstance().addFilter(inputMp4, filterConfig, outputMp4, createListener("addFilter"));
@@ -283,14 +284,14 @@ public class MainActivity extends AppCompatActivity
     private void addBackgroundMusic() {
         String inputMp4 = sdcardPath + "/videoplayback_output.mp4";
         String inputBgMusic = sdcardPath + "/ten_second_music.mp3";
-        String outputMp4 = sdcardPath + "/output_add_bg_music.mp4";
+        String outputMp4 = sdcardPath_output + "/output_add_bg_music.mp4";
 
         MediaOperator.getInstance().addBackgroundMusic(inputMp4, inputBgMusic, outputMp4, createListener("addBackgroundMusic"));
     }
 
     private void adJustVolume() {
         String inputMp4 = sdcardPath + "/videoplayback_output.mp4";
-        String outputMp4 = sdcardPath + "/output_volume_video.mp4";
+        String outputMp4 = sdcardPath_output + "/output_volume_video.mp4";
         float percent = 4;
 
         MediaOperator.getInstance().adjustVolume(inputMp4, percent, outputMp4, createListener("adJustVolume"));
@@ -298,14 +299,14 @@ public class MainActivity extends AppCompatActivity
 
     private void fastOrSlow(float v) {
         String inputMp4 = sdcardPath + "/videoplayback_output.mp4";
-        String outputMp4 = sdcardPath + "/output_" + (v > 1 ? "fastVideo" : "slowVideo") + "_video.mp4";
+        String outputMp4 = sdcardPath_output + "/output_" + (v > 1 ? "fastVideo" : "slowVideo") + "_video.mp4";
 
         MediaOperator.getInstance().fastOrSlowVideo(inputMp4, v, outputMp4, createListener((v > 1 ? "fastVideo" : "slowVideo")));
     }
 
     private void trimVideo() {
         String inputMp4 = sdcardPath + "/videoplayback.mp4";
-        String outputMp4 = sdcardPath + "/output_trim_video_output.mp4";
+        String outputMp4 = sdcardPath_output + "/output_trim_video_output.mp4";
         int start = 5;
         int duration = 15;
 
@@ -314,7 +315,7 @@ public class MainActivity extends AppCompatActivity
 
     private void watermark() {
         String inputMp4 = sdcardPath + "/videoplayback_output.mp4";
-        String outputMp4 = sdcardPath + "/output_watermark_video_scale.mp4";
+        String outputMp4 = sdcardPath_output + "/output_watermark_video_scale.mp4";
         String waterImg;
 
         List<Watermark> watermarks = new ArrayList<>();
@@ -336,7 +337,7 @@ public class MainActivity extends AppCompatActivity
 
     private void multipleTask() {
         String inputMp4 = sdcardPath + "/videoplayback_output.mp4";
-        String outputMp4 = sdcardPath + "/output_multiple_video.mp4";
+        String outputMp4 = sdcardPath_output + "/output_multiple_video.mp4";
         String waterImg;
 
         List<Watermark> watermarks = new ArrayList<>();
@@ -367,7 +368,7 @@ public class MainActivity extends AppCompatActivity
 
     private void overlay() {
         String inputMp4 = sdcardPath + "/videoplayback_output.mp4";
-        String outputMp4 = sdcardPath + "/output_overlay_video.mp4";
+        String outputMp4 = sdcardPath_output + "/output_overlay_video.mp4";
 
         String overlay = sdcardPath + "/input_overlay.mkv";
         List<Overlay> overlays = new ArrayList<>();
@@ -382,8 +383,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void compress() {
-        String inputMp4 = sdcardPath + "/videoplayback_output_qyqx.mp4";
-        String outputMp4 = sdcardPath + "/output_compress_video.mp4";
+        String inputMp4 = sdcardPath + "/input_test.mp4";
+        String outputMp4 = sdcardPath_output + "/output_compress_video.mp4";
 
         MediaOperator.getInstance().compress(inputMp4, 23, outputMp4, createListener("compress"));
     }
@@ -392,7 +393,7 @@ public class MainActivity extends AppCompatActivity
     private void scaleAndCompress() {
         String inputMp4 = Environment.getExternalStorageDirectory().getPath() + "/DCIM/Video/test.mp4";
         inputMp4 = sdcardPath+"/input_test.mp4";
-        String outputMp4 = sdcardPath + "/output_scale_compress_video.mp4";
+        String outputMp4 = sdcardPath_output + "/output_scale_compress_video.mp4";
 
         MediaOperator.getInstance().scaleAndCompress(inputMp4, 480, 360, outputMp4, createListener("scaleAndCompress"));
     }
